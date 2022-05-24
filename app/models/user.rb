@@ -7,7 +7,7 @@ class User < ApplicationRecord
 
   validates :nickname,           presence: true
 
-  with_options presence: true, format: { with: /\A[ぁ-ん一-龥々ー]+\z/, message: 'is invalid. Input full-width characters' } do
+  with_options presence: true, format: { with: /\A[ぁ-ん一ァ-ヶ一-龥々ー]+\z/, message: 'is invalid. Input full-width characters' } do
     validates :first_name, presence: true
     validates :last_name, presence: true
   end
@@ -20,5 +20,5 @@ class User < ApplicationRecord
   validates :birthday, presence: true
 
   has_many :items
-  has_many :purchases
+  # has_many :purchases
 end
