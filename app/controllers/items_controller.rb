@@ -48,5 +48,6 @@ class ItemsController < ApplicationController
   def move_to_index
     unless @item.user == current_user
     redirect_to root_path
+    end
   end
 end
