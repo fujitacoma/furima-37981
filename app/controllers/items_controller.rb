@@ -27,8 +27,7 @@ class ItemsController < ApplicationController
   end
 
   def update
-    @item.update(item_params)
-    if @item.save
+    if @item.update(item_params)
       redirect_to item_path
     else
       render :edit
@@ -42,11 +41,12 @@ class ItemsController < ApplicationController
                                  :sending_date_id, :image).merge(user_id: current_user.id)
   end
 
-  def move_to_index
-    redirect_to root_path unless @item.user == current_user
-  end
-
   def find_params
     @item = Item.find(params[:id])
+  end
+
+  def move_to_index
+    unless @item.user == current_user
+    redirect_to root_path
   end
 end
