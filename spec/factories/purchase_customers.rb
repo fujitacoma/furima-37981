@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :purchase_customer do
 
-    postcode	           { 123-4567 }
+    postcode	           { "123-4567" }
     prefecture_id        { 2 }
     city                 { "横浜市緑区" }
     block                { "青山1-1-1" }

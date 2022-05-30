@@ -24,39 +24,39 @@ RSpec.describe PurchaseCustomer, type: :model do
       it 'postcodeにハイフンがない場合購入できない' do
         @purchase_customer.postcode = '1234567'
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Purchase can't be blank"
+        expect(@purchase_customer.errors.full_messages).to include "Postcode is invalid. Enter it as follows (e.g. 123-4567)"
       end
         it 'postcodeが「3桁ハイフン4桁」でない場合購入できない' do
-        @purchase_customer.postcode = '123-4567'
+        @purchase_customer.postcode = '1234-567'
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Purchase can't be blank"
+        expect(@purchase_customer.errors.full_messages).to include "Postcode is invalid. Enter it as follows (e.g. 123-4567)"
       end
-      it 'postcodeに全角が入力されていると登録できない' do
+      it 'postcodeに全角が入力されていると購入できない' do
         @purchase_customer.postcode = 'テストーテスト'
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Purchase can't be blank"
+        expect(@purchase_customer.errors.full_messages).to include "Postcode is invalid. Enter it as follows (e.g. 123-4567)"
       end
-      it 'postcodeが半角英字では登録できない' do
+      it 'postcodeが半角英字では購入できない' do
         @purchase_customer.postcode = 'test-test'
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Purchase can't be blank"
+        expect(@purchase_customer.errors.full_messages).to include "Postcode is invalid. Enter it as follows (e.g. 123-4567)"
       end
-      it 'postcodeが半角カタカナでは登録できない' do
+      it 'postcodeが半角カタカナでは購入できない' do
         @purchase_customer.postcode = 'ﾃｽﾄ-ﾃｽﾄ'
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Purchase can't be blank"
+        expect(@purchase_customer.errors.full_messages).to include "Postcode is invalid. Enter it as follows (e.g. 123-4567)"
       end
-      it 'prefecture_idが1(---)では登録できない' do
+      it 'prefecture_idが1(---)では購入できない' do
         @purchase_customer.prefecture_id = 1
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Prefecture must be other than 1"
+        expect(@purchase_customer.errors.full_messages).to include "Prefecture can't be blank"
       end
       it 'cityが空では購入できない' do
         @purchase_customer.city = ''
         @purchase_customer.valid?
         expect(@purchase_customer.errors.full_messages).to include "City can't be blank"
       end
-      it 'blockが空では登録できない' do
+      it 'blockが空では購入できない' do
         @purchase_customer.block = ''
         @purchase_customer.valid?
         expect(@purchase_customer.errors.full_messages).to include "Block can't be blank"
@@ -69,22 +69,32 @@ RSpec.describe PurchaseCustomer, type: :model do
       it 'phone-numberが10桁以下の場合は購入できない' do
         @purchase_customer.phone_number = '090123456' 
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include "Phone number must be less than or equal to 11"
+        expect(@purchase_customer.errors.full_messages).to include "Phone number is too short"
       end
-      it 'phone-numberが11桁以上の場合は購入できない' do
-        @purchase_customer.phone_number = '090-1234-5678'
+      it 'phone-numberに全角が入力されていると購入できない' do
+        @purchase_customer.phone_number = 'テストテストテストテス'
         @purchase_customer.valid?
         expect(@purchase_customer.errors.full_messages).to include "Phone number is invalid. Input only number"
       end
-      it 'ユーザー情報が紐づいていないと登録できない' do
+      it 'phone-numberが半角英字では購入できない' do
+        @purchase_customer.phone_number = 'testtesttes'
+        @purchase_customer.valid?
+        expect(@purchase_customer.errors.full_messages).to include "Phone number is invalid. Input only number"
+      end
+      it 'phone-numberが半角カタカナでは購入できない' do
+        @purchase_customer.phone_number = 'ﾃｽﾄﾃｽﾄﾃｽﾄﾃｽ'
+        @purchase_customer.valid?
+        expect(@purchase_customer.errors.full_messages).to include "Phone number is invalid. Input only number"
+      end
+      it 'ユーザー情報が紐づいていないと購入できない' do
         @purchase_customer.user_id = nil
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include 'User must exist'
+        expect(@purchase_customer.errors.full_messages).to include "User can't be blank"
       end
-      it '商品情報が紐づいていないと登録できない' do
+      it '商品情報が紐づいていないと購入できない' do
         @purchase_customer.item_id = nil
         @purchase_customer.valid?
-        expect(@purchase_customer.errors.full_messages).to include 'Item must exist'
+        expect(@purchase_customer.errors.full_messages).to include "Item can't be blank"
       end
     end
   end
