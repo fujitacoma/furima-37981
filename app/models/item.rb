@@ -7,7 +7,7 @@ class Item < ApplicationRecord
   belongs_to :sending_date
   belongs_to :user
 
-  # has_one :purchase
+  has_one :purchase
   has_one_attached :image
 
   validates :image, :item_name, :content, :price, presence: true
