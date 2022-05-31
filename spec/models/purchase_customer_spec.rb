@@ -66,8 +66,13 @@ RSpec.describe PurchaseCustomer, type: :model do
         @purchase_customer.valid?
         expect(@purchase_customer.errors.full_messages).to include "Phone number can't be blank"
       end
-      it 'phone-numberが10桁以下の場合は購入できない' do
+      it 'phone-numberが9桁以下の場合は購入できない' do
         @purchase_customer.phone_number = '090123456'
+        @purchase_customer.valid?
+        expect(@purchase_customer.errors.full_messages).to include 'Phone number is too short'
+      end
+      it 'phone-numberが12桁以上の場合は購入できない' do
+        @purchase_customer.phone_number = '090123456789'
         @purchase_customer.valid?
         expect(@purchase_customer.errors.full_messages).to include 'Phone number is too short'
       end
