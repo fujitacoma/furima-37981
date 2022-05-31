@@ -2,6 +2,7 @@ class ItemsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create, :edit, :destroy]
   before_action :find_params, only: [:show, :edit, :update, :destroy]
   before_action :move_to_index, only: [:edit, :update, :destroy]
+  before_action :sold_item, only: [:edit]
 
   def index
     @items = Item.order('created_at DESC')
@@ -35,9 +36,7 @@ class ItemsController < ApplicationController
   end
 
   def destroy
-    if @item.destroy
-      redirect_to root_path
-    end
+    redirect_to root_path if @item.destroy
   end
 
   private
@@ -52,8 +51,11 @@ class ItemsController < ApplicationController
   end
 
   def move_to_index
-    unless @item.user == current_user
+    redirect_to root_path unless @item.user == current_user
+  end
+
+  def sold_item
+    @item.purchase.present?
     redirect_to root_path
-    end
   end
 end
