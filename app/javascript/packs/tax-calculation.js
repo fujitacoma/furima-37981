@@ -1,5 +1,6 @@
 function taxcalculation (){
   const taxCalculation = document.getElementById("item-price")
+  if (!taxCalculation){ return false;}
   taxCalculation.addEventListener('input', function(){
     
     const taxCalculationValue = taxCalculation.value;
